@@ -1,1 +1,1 @@
-basically this application generates a song based on the weather of their city
+ this application recommends  songs based on the weather of their city
