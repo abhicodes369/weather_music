@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+// Use an environment variable for the API URL, with a fallback
+const API_URL = process.env.REACT_APP_API_URL || 'https://weather-music.onrender.com';
+
 const Weather = () => {
   const [city, setCity] = useState('');
   const [weatherData, setWeatherData] = useState(null);
@@ -15,16 +18,19 @@ const Weather = () => {
     setLoading(true);
     setError(null);
     try {
-      // Replace with your actual API endpoint
-      const response = await fetch(`http://localhost:8000/weather-music?city=${city}`);
+      const response = await fetch(`${API_URL}/weather-music?city=${city}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch data');
+        if (response.status === 404) {
+          throw new Error('City not found. Please check the spelling and try again.');
+        } else {
+          throw new Error('An error occurred while fetching data. Please try again later.');
+        }
       }
       const data = await response.json();
       setWeatherData(data.weather);
       setRecommendations(data.recommendations);
     } catch (err) {
-      setError('An error occurred while fetching data');
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -74,23 +80,21 @@ const Weather = () => {
           <p>Temperature: {weatherData.temp}°C</p>
         </div>
       )}
-      {recommendations && (
-  <div>
-    <h2>Music Recommendations</h2>
-    <h3>Playlist: {recommendations.playlist_name}</h3>
-    <h4>Top Tracks:</h4>
-    <ul>
-      {recommendations.tracks.map((track, index) => (
-        <li key={index}>
-          {track.name} by {track.artist}
-        </li>
-      ))}
-    </ul>
-  </div>
-)}
-
       
-
+      {recommendations && (
+        <div>
+          <h2>Music Recommendations</h2>
+          <h3>Playlist: {recommendations.playlist_name}</h3>
+          <h4>Top Tracks:</h4>
+          <ul>
+            {recommendations.tracks.map((track, index) => (
+              <li key={index}>
+                {track.name} by {track.artist}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
