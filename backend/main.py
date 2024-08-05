@@ -73,7 +73,8 @@ async def get_weather_music(city: str):
     return WeatherMusicResponse(weather=weather, recommendations=recommendations)
 
 # Serve static files
-app.mount("/", StaticFiles(directory="../my-app/build", html=True), name="static")
+app.mount("/", StaticFiles(directory="../frontend/my-app/build", html=True), name="static")
+
 
 if __name__ == "__main__":
     import uvicorn
