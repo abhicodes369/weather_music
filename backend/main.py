@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
 from pydantic import BaseModel
@@ -9,12 +10,11 @@ import os
 load_dotenv('local.env')
 
 app = FastAPI()
- 
-# Enable CORS
 
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://abhicodes369/.github.io"],
+    allow_origins=["*"],  # Be cautious with this in production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -41,7 +41,7 @@ class WeatherMusicResponse(BaseModel):
     weather: dict
     recommendations: dict
 
-@app.get("/weather-music")
+@app.get("/api/weather-music")
 async def get_weather_music(city: str):
     # Fetch weather data
     weather_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPENWEATHER_API_KEY}&units=metric"
@@ -71,6 +71,9 @@ async def get_weather_music(city: str):
     }
 
     return WeatherMusicResponse(weather=weather, recommendations=recommendations)
+
+# Serve static files
+app.mount("/", StaticFiles(directory="../my-app/build", html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn

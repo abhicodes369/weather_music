@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-// Use an environment variable for the API URL, with a fallback
-const API_URL = process.env.REACT_APP_API_URL || 'https://weather-music.onrender.com';
+// Use the relative path for the API
+const API_URL = '/api';
 
 const Weather = () => {
   const [city, setCity] = useState('');
