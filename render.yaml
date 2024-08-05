@@ -4,7 +4,7 @@ services:
     env: python
     buildCommand: |
       # Build frontend
-      cd my-app && npm install && npm run build && cd ..
+      cd frontend/my-app && npm install && npm run build && cd ../..
       # Install backend dependencies
       pip install -r backend/requirements.txt
     startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
