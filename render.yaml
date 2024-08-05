@@ -3,10 +3,10 @@ services:
     name: weather-app
     env: python
     buildCommand: |
-      # Build frontend
+      # Navigate to the frontend directory and build the React app
       cd frontend/my-app && npm install && npm run build && cd ../..
       # Install backend dependencies
-      pip install -r backend/requirements.txt
+      cd backend && pip install -r requirements.txt && cd ..
     startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: OPENWEATHER_API_KEY
