@@ -5,7 +5,7 @@ This project provides music recommendations based on the current weather in a gi
 
 ## Live Demo
 
-Check out the live demo [here](https://your-github-username.github.io/your-repo-name).
+Check out the live demo [here](https://weather-music.onrender.com/).
 
 ## Features
 
